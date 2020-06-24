@@ -85,7 +85,10 @@ class IpWhitelister():
         request_ips = self.get_client_ip_list(request)
 
         for request_ip_str in request_ips:
-            request_ip = ipaddress.ip_address(request_ip_str)
+            try:
+                request_ip = ipaddress.ip_address(request_ip_str)
+            except Exception as _e:
+                request_ip = request_ip_str
 
             # If it's in the ALLOWED_IPS, don't block it
             if request_ip_str in allowed_ips:
